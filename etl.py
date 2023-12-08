@@ -102,16 +102,8 @@ def onehot_encode_series(series):
 
 
 def transform(df):
-    clean = df.copy()
-    print(f'{clean.shape[0]} rows before refinement')
-    print(f"Number of unique property URLs in df: {df['URL'].nunique()}")
-    non_dup = df.drop_duplicates(subset=['Address', 'Price', 'BER']).shape[0]
-    print(f'{non_dup} non-duplicate rows according to Address, Price, and BER')
-
     # format numeric columns
-    clean = clean[clean['Price'] > 0]
-    print('Dropping price=0')
-    print(f'{clean.shape[0]} rows left')
+    clean = df[df['Price'] > 0]
     clean.replace('', np.nan, inplace=True)
     for c in ('Bedrooms', 'Price', 'Bathrooms'):
         clean[c] = clean[c].astype(float)
@@ -124,16 +116,12 @@ def transform(df):
     keep = counts[counts >= 10].index
     nocodes = nocodes[nocodes['Postcode'].isin(keep)]
     clean = pd.concat([codes, nocodes])
-    print('Removing postcodes present less than 10 times')
-    print(f'{clean.shape[0]} rows left')
 
     # subset data to remove outlier properties
     clean = (clean[
         (clean['Price'] < 7e5) &
         ~(clean['Property'].str.contains('Group'))
     ])
-    print('Removing prices > 8e5 and property which is a "Group" of buildings')
-    print(f'{clean.shape[0]} rows left')
     clean['Property'] = clean['Property'].str.replace(' For Sale', '')
 
     # one-hot encodings
@@ -149,15 +137,11 @@ def transform(df):
 
     # filter out too many bathrooms and bedrooms
     clean = clean[(clean['Bedrooms'] < 7) & (clean['Bathrooms'] < 5)]
-    print('Removing places with > 6 bedrooms and > 4 bathrooms')
-    print(f'{clean.shape[0]} rows left')
 
     # remove property types present in less than 100 samples
     counts = clean['Property'].value_counts()
     keep = counts[counts >= 100].index
     clean = clean[clean['Property'].isin(keep)]
-    print('Removing property types present less than 100 times')
-    print(f'{clean.shape[0]} rows left\n')
 
     return clean
 
