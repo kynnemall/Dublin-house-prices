@@ -48,12 +48,16 @@ class PropertySpider(scrapy.Spider):
             num_baths = num_baths.group(1) if num_baths else ''
             property_type = summary.split(',')[-1].strip()
             postcode = re.findall(r'Dublin (\d+)', address)
+            if postcode:
+                postcode = 'D' + postcode[0].zfill(2)
+            else:
+                postcode = ''
 
             yield {
                 'URL': url,
                 'Price': price,
                 'Address': address,
-                'Postcode': postcode[0] if postcode else '',
+                'Postcode': postcode,
                 'Property': property_type,
                 'Bedrooms': num_beds,
                 'Bathrooms': num_baths,
@@ -152,6 +156,5 @@ if __name__ == '__main__':
     crawl(LINK)
 
     df = pd.read_json('results.json')
-    df['Postcode'] = 'D' + df['Postcode'].str.zfill(2)
     clean = transform(df)
-    clean.to_csv('results.csv', index=False)
+    clean.to_csv('clean.csv', index=False)
