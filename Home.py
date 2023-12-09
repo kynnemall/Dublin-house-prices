@@ -1,8 +1,31 @@
+import numpy as np
+import pandas as pd
 import streamlit as st
 
 
 # TODO
 # page for plotting regression coefficients and showing results
+
+@st.cache_data
+def load_data():
+    df = pd.read_json('results.json')
+    df['Postcode'] = df['Postcode'].replace('', 'NA')
+    df.replace('', np.nan, inplace=True)
+    for c in ('Bedrooms', 'Price', 'Bathrooms'):
+        df[c] = df[c].astype(float)
+    st.session_state['df'] = df
+
+
+@st.cache_data
+def load_clean_data():
+    clean = pd.read_csv('clean.csv')
+    st.session_state['clean'] = clean
+
+
+@st.cache_resource
+def load_model():
+    pass
+
 
 st.header('Dublin Property Prices App')
 st.markdown(
@@ -51,3 +74,7 @@ with st.expander('Notes'):
         general estimates rather than precise indicators.
         """
     )
+
+# load data
+load_data()
+load_clean_data()
