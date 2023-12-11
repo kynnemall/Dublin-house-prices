@@ -1,7 +1,10 @@
 mlflow
 numpy
 pandas
+random-user-agent
+requests-random-user-agent
 scikit-learn
 scipy
 scrapy
 scrapy-user-agents
+user-agents
