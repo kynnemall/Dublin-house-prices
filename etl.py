@@ -76,7 +76,7 @@ class PropertySpider(scrapy.Spider):
 
 def crawl(link):
     process = CrawlerProcess(settings={
-        "FEEDS": {"results.json":
+        "FEEDS": {"data/results.json":
                   {"format": "json", "overwrite": True}
                   },
         'CONCURRENT_REQUESTS': 16,
@@ -155,6 +155,6 @@ if __name__ == '__main__':
     LINK = 'https://www.property.ie/property-for-sale/dublin/'
     crawl(LINK)
 
-    df = pd.read_json('results.json')
+    df = pd.read_json('data/results.json')
     clean = transform(df)
-    clean.to_csv('clean.csv', index=False)
+    clean.to_csv('data/clean.csv', index=False)
