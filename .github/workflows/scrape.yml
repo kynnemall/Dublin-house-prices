@@ -1,6 +1,6 @@
-on:
-  schedule:
-    - cron:  '01 00 * * 1,4' # 1 minute past midnight on Monday and Thursday
+on: workflow_dispatch
+  # schedule:
+  #  - cron:  '01 00 * * 1,4' # 1 minute past midnight on Monday and Thursday
 
 jobs:
   scheduled:
