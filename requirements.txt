@@ -1,0 +1,7 @@
+mlflow
+numpy
+pandas
+scikit-learn
+scipy
+scrapy
+scrapy-user-agents
