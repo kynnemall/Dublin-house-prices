@@ -2,6 +2,7 @@ import re
 import json
 import requests
 import concurrent
+import requests_random_user_agent
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
