@@ -14,7 +14,7 @@ BASE_URL = 'https://www.property.ie/property-for-sale/dublin/price_international
 
 
 def scrape_page(url, return_soup=False):
-    response = requests.get(url)
+    response = requests.get(url, headers={'referer': 'https://www.google.com/'})
     good_response = '200' in str(response)
     if good_response:
         soup = BeautifulSoup(response.content, 'lxml')
