@@ -2,7 +2,7 @@ import re
 import json
 import concurrent
 import cloudscraper
-import requests_random_user_agent
+#import requests_random_user_agent
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
