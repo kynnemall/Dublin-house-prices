@@ -53,7 +53,7 @@ def scrape_page(url, return_soup=False):
 
             data.append([code[0], price, link])
     else:
-        print('Bad response')
+        print('Bad response:\t' + str(response))
 
     if return_soup and good_response:
         return data, soup
