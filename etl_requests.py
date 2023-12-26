@@ -1,7 +1,7 @@
 import re
 import json
-import requests
 import concurrent
+import cloudscraper
 import requests_random_user_agent
 import numpy as np
 import pandas as pd
@@ -11,10 +11,11 @@ from sklearn.preprocessing import OneHotEncoder
 
 START_URL = 'https://www.property.ie/property-for-sale/dublin/'
 BASE_URL = 'https://www.property.ie/property-for-sale/dublin/price_international_rental-onceoff_standard/p_XXX/'
+SCRAPER = cloudscraper.create_scraper()
 
 
 def scrape_page(url, return_soup=False):
-    response = requests.get(url, headers={'referer': 'https://www.google.com/'})
+    response = SCRAPER.get(url)
     if return_soup:
         print('Response header')
         print(response.headers)
